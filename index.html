@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-Commerce Product Listing</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+body{
+  background:linear-gradient(135deg,#fdfbfb,#ebedee);
+}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#ff512f,#dd2476);
+  color:white;
+  text-align:center;
+  padding:25px;
+}
+header h1{
+  font-size:2.5rem;
+}
+header input{
+  margin-top:15px;
+  padding:12px;
+  width:60%;
+  border:none;
+  border-radius:30px;
+  outline:none;
+}
+
+/* FILTERS */
+.filters{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  padding:15px;
+  background:#fff;
+}
+.filters select{
+  padding:10px 15px;
+  border-radius:25px;
+  border:2px solid #dd2476;
+}
+
+/* GRID */
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:25px;
+  padding:25px;
+}
+
+/* CARD */
+.card{
+  background:white;
+  border-radius:20px;
+  padding:15px;
+  text-align:center;
+  box-shadow:0 8px 15px rgba(0,0,0,0.15);
+  transition:0.3s;
+}
+.card:hover{
+  transform:translateY(-10px);
+}
+.card img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+  border-radius:15px;
+}
+.card h3{
+  margin:10px 0;
+  color:#dd2476;
+}
+.price{
+  color:#ff512f;
+  font-weight:bold;
+}
+
+/* FOOTER */
+footer{
+  background:linear-gradient(135deg,#1d2671,#c33764);
+  color:white;
+  text-align:center;
+  padding:15px;
+}
+footer span{
+  color:#ffeb3b;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🛍️ ColorShop</h1>
+  <p>Simple & Stylish Product Listing</p>
+  <input type="text" id="search" placeholder="Search products...">
+</header>
+
+<div class="filters">
+  <select id="category">
+    <option value="all">All Categories</option>
+    <option value="electronics">Electronics</option>
+    <option value="fashion">Fashion</option>
+  </select>
+
+  <select id="rating">
+    <option value="all">All Ratings</option>
+    <option value="4">4★ & above</option>
+    <option value="3">3★ & above</option>
+  </select>
+</div>
+
+<div class="product-grid" id="products"></div>
+
+<footer>
+  <p>✨ Developed by <span>Tamilaruvi.S</span></p>
+</footer>
+
+<script>
+const productList=[
+ {name:"Smartphone",category:"electronics",price:15000,rating:4,img:"https://via.placeholder.com/300"},
+ {name:"Headphones",category:"electronics",price:2500,rating:5,img:"https://via.placeholder.com/300"},
+ {name:"T-Shirt",category:"fashion",price:900,rating:3,img:"https://via.placeholder.com/300"},
+ {name:"Shoes",category:"fashion",price:3200,rating:4,img:"https://via.placeholder.com/300"}
+];
+
+const productsDiv=document.getElementById("products");
+const search=document.getElementById("search");
+const category=document.getElementById("category");
+const rating=document.getElementById("rating");
+
+function showProducts(list){
+ productsDiv.innerHTML="";
+ list.forEach(p=>{
+  productsDiv.innerHTML+=`
+   <div class="card">
+    <img src="${p.img}">
+    <h3>${p.name}</h3>
+    <p class="price">₹${p.price}</p>
+    <p>⭐ ${p.rating}</p>
+   </div>
+  `;
+ });
+}
+
+function filter(){
+ let filtered=productList.filter(p=>
+  p.name.toLowerCase().includes(search.value.toLowerCase()) &&
+  (category.value==="all"||p.category===category.value) &&
+  (rating.value==="all"||p.rating>=rating.value)
+ );
+ showProducts(filtered);
+}
+
+search.addEventListener("input",filter);
+category.addEventListener("change",filter);
+rating.addEventListener("change",filter);
+
+showProducts(productList);
+</script>
+
+</body>
+</html>
